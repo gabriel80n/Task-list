@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Lumanosimo&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  color:black;
+}
+header {
+  font-family: helvetica;
+  font-size: 1em;
+}

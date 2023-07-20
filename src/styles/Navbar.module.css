@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Lumanosimo&display=swap');
+
+.navbarLogo {
+  display: grid;
+  grid-template-columns: 70% 25%;
+  padding: 10px 40px;
+
+}
+.navbarOthers {
+  display: grid;
+  grid-template-columns: 30% 30% 50%;
+  padding: 10px 40px;
+  padding: 10px 10px;
+}
+.navbarOthers div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:100%;
+}
+
+.navbarLogo a {
+  margin-right: 1em;
+  padding: 3px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.navbarLogo a:hover {
+  color: blue;
+}
+.logo {
+  display: flex;
+  font-family: 'Lumanosimo', cursive;
+  font-size: 2.5em;
+  align-items: center;
+}
+.botao {
+  padding: 15px 30px;
+  border-radius: 30px;
+  background-color: blue;
+  color: white;
+  text-decoration: none;
+  border: none;
+  height: 100%;
+  font-size: 1em;
+}
+.botao:hover{
+  background-color: #039;;
+  transition:0.3;
+  color: white;
+}
+.main {
+  height: 600px;
+  background-color: #999
+}
+
+
