@@ -1,14 +1,21 @@
+import Link from 'next/link'
 import styles from '../styles/Navbar.module.css'
 import '../styles/globals.css'
 export default function Navbar() {
   return (
-    <nav>
+    <nav className={styles.navbar}>
       <div className={styles.navbarLogo}>
         <div className={`${styles.logo}`} ><a href="/">Task</a></div>
         <div className={styles.navbarOthers}>
           <div ><a href="/">Contact</a></div>
           <div ><a href="/">Login</a></div>
-          <div><button className={styles.botao}>Sing up free</button></div>
+          <div>
+            <Link href={"/conect"}>
+
+              <button className={styles.botao}>Sign up free<span>&rarr;</span></button>
+
+            </Link>
+          </div>
         </div>
       </div>
     </nav>

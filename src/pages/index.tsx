@@ -1,17 +1,18 @@
 import Navbar from '@/components/Navbar';
-import styles from '../styles/Navbar.module.css'
 import '../styles/globals.css';
+import PagInicial from '@/components/PagInicial';
 
-export default function Home () {
+
+
+export default function Home() {
   return (
     <>
-    <header>
-      <Navbar/>
-    </header>
-    <main className={styles.main}>
-      <section>
-      </section>
-    </main>
+      <header>
+        <Navbar />
+      </header>
+      <div>
+        <PagInicial/>
+      </div>
     </>
   )
 }
