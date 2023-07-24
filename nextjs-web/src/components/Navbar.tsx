@@ -10,7 +10,7 @@ export default function Navbar() {
           <div ><a href="/">Contact</a></div>
           <div ><a href="/">Login</a></div>
           <div>
-            <Link href={"/conect"}>
+            <Link href={"/connect"}>
 
               <button className={styles.botao}>Sign up free<span>&rarr;</span></button>
 

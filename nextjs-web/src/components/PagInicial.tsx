@@ -9,7 +9,7 @@ export default function PagInicial() {
           <section>
             <h1>Inovate the way you manage your projects!</h1>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, mollitia magnam delectus pariatur voluptates culpa consectetur eum at vero fugit vel  </p>
-            <Link href={"/conect"}>
+            <Link href={"/connect"}>
               
               <button className={styles.botao}>Sign up free<span>&rarr;</span></button>
               
