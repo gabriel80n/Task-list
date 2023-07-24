@@ -14,17 +14,17 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../database/prisma.service");
 const update_user_body_1 = require("./dtos/update-user-body");
 const create_user_body_1 = require("./dtos/create-user-body");
+const users_service_1 = require("./users.service");
 let UsersController = exports.UsersController = class UsersController {
-    constructor(prisma) {
-        this.prisma = prisma;
+    constructor(userService) {
+        this.userService = userService;
     }
-    async create(createUserDto) {
+    create(createUserDto) {
         return this.userService.create(createUserDto);
     }
-    async findByEmail(email) {
+    findByEmail(email) {
         return this.userService.findByEmail(email);
     }
     findAll() {
@@ -42,14 +42,14 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_body_1.CreateUserDto]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], UsersController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(':email'),
     __param(0, (0, common_1.Param)('email')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
+    __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findByEmail", null);
 __decorate([
     (0, common_1.Get)(),
@@ -74,6 +74,6 @@ __decorate([
 ], UsersController.prototype, "remove", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
 //# sourceMappingURL=users.controller.js.map

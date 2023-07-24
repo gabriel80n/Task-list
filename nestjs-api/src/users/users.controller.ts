@@ -11,19 +11,18 @@ import {
 import { PrismaService } from 'src/database/prisma.service';
 import { UpdateUserDto } from './dtos/update-user-body';
 import { CreateUserDto } from './dtos/create-user-body';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
-  userService: any;
-  constructor(private prisma: PrismaService) {}
-
+  constructor(private readonly userService: UsersService) {}
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
+  create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
   @Get(':email')
-  async findByEmail(@Param('email') email: string) {
+  findByEmail(@Param('email') email: string) {
     return this.userService.findByEmail(email);
   }
 
