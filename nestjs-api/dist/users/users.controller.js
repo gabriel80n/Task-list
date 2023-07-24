@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const update_user_body_1 = require("./dtos/update-user-body");
 const create_user_body_1 = require("./dtos/create-user-body");
 const users_service_1 = require("./users.service");
+const is_public_decorator_1 = require("../auth/decorators/is-public.decorator");
 let UsersController = exports.UsersController = class UsersController {
     constructor(userService) {
         this.userService = userService;
@@ -39,6 +40,7 @@ let UsersController = exports.UsersController = class UsersController {
 };
 __decorate([
     (0, common_1.Post)(),
+    (0, is_public_decorator_1.IsPublic)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_body_1.CreateUserDto]),

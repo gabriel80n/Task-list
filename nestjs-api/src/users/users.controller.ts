@@ -7,16 +7,16 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-//import { UsersService } from './users.service';
-import { PrismaService } from 'src/database/prisma.service';
 import { UpdateUserDto } from './dtos/update-user-body';
 import { CreateUserDto } from './dtos/create-user-body';
 import { UsersService } from './users.service';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
   @Post()
+  @IsPublic()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
