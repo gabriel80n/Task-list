@@ -4,7 +4,12 @@ import { UpdateUserDto } from './dtos/update-user-body';
 export declare class UsersController {
     private prisma;
     constructor(prisma: PrismaService);
-    create(body: CreateUserDto): Promise<{}>;
+    create(body: CreateUserDto): Promise<{
+        password: any;
+        id: number;
+        email: string;
+        name: string;
+    }>;
     findAll(): import(".prisma/client").Prisma.PrismaPromise<(import("@prisma/client/runtime/library").GetResult<{
         id: number;
         email: string;

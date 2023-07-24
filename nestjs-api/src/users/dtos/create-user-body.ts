@@ -6,10 +6,6 @@ export class CreateUserDto {
   @Length(5, 20)
   @IsString()
   name: string;
-
-  @IsNotEmpty()
-  @IsEmail()
-  email: string;
   
   @IsString()
   @MinLength(4)
@@ -18,4 +14,9 @@ export class CreateUserDto {
     message: 'password too weak',
   })
   password: string; 
+
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+  
 }

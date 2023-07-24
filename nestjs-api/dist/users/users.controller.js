@@ -17,15 +17,21 @@ const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../database/prisma.service");
 const create_user_body_1 = require("./dtos/create-user-body");
 const update_user_body_1 = require("./dtos/update-user-body");
+const bcrypt = require("bcrypt");
 let UsersController = exports.UsersController = class UsersController {
     constructor(prisma) {
         this.prisma = prisma;
     }
     async create(body) {
-        const user = {
-            ...create_user_body_1.CreateUserDto,
+        const data = {
+            ...body,
+            password: await bcrypt.hash(body.password, 10),
         };
-        return user;
+        const createdUser = await this.prisma.user.create({ data });
+        return {
+            ...createdUser,
+            password: undefined,
+        };
     }
     findAll() {
         return this.prisma.user.findMany();
@@ -58,7 +64,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "create", null);
 __decorate([
-    (0, common_1.Get)('post'),
+    (0, common_1.Get)(''),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)

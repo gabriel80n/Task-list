@@ -11,6 +11,7 @@ import {
 import { PrismaService } from 'src/database/prisma.service';
 import { CreateUserDto } from './dtos/create-user-body';
 import { UpdateUserDto } from './dtos/update-user-body';
+import * as bcrypt from 'bcrypt';
 
 @Controller('users')
 export class UsersController {
@@ -18,8 +19,9 @@ export class UsersController {
 
   @Post()
   async create(@Body() body: CreateUserDto) {
-    const user = {
-      ...CreateUserDto,
+    const data = {
+      ...body,
+      password: await bcrypt.hash(body.password, 10),
     };
     /*
     const { name, email, password } = body;
@@ -31,9 +33,13 @@ export class UsersController {
       },
     });
     */
-    return user;
+    const createdUser = await this.prisma.user.create({ data });
+    return {
+      ...createdUser,
+      password: undefined,
+    };
   }
-  @Get('post')
+  @Get('')
   findAll() {
     return this.prisma.user.findMany();
   }

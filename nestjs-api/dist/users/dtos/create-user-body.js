@@ -20,11 +20,6 @@ __decorate([
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "name", void 0);
 __decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsEmail)(),
-    __metadata("design:type", String)
-], CreateUserDto.prototype, "email", void 0);
-__decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(4),
     (0, class_validator_1.MaxLength)(20),
@@ -33,4 +28,9 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], CreateUserDto.prototype, "password", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEmail)(),
+    __metadata("design:type", String)
+], CreateUserDto.prototype, "email", void 0);
 //# sourceMappingURL=create-user-body.js.map
