@@ -6,9 +6,9 @@ export declare class UsersService {
     constructor(prisma: PrismaService);
     create(body: CreateUserDto): Promise<{
         password: any;
-        id: number;
-        email: string;
         name: string;
+        email: string;
+        id: number;
     }>;
     findByEmail(email: string): import(".prisma/client").Prisma.Prisma__UserClient<import("@prisma/client/runtime/library").GetResult<{
         id: number;
