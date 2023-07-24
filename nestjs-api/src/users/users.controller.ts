@@ -23,27 +23,26 @@ export class UsersController {
       ...body,
       password: await bcrypt.hash(body.password, 10),
     };
-    /*
-    const { name, email, password } = body;
-    const user = await this.prisma.user.create({
-      data: {
-        email: email,
-        password: password,
-        name: name,
-      },
-    });
-    */
+
     const createdUser = await this.prisma.user.create({ data });
     return {
       ...createdUser,
       password: undefined,
     };
   }
+
+  @Get(':email')
+  async findByEmail(@Param('email') email: string) {
+    return this.prisma.user.findUnique({
+      where: { email },
+    });
+  }
+
   @Get('')
   findAll() {
     return this.prisma.user.findMany();
   }
-
+  /*
   @Get(':id')
   findOne(@Param('id') id: string) {
     const userId = parseInt(id, 10);
@@ -51,7 +50,7 @@ export class UsersController {
       where: { id: userId },
     });
   }
-
+*/
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     const userId = parseInt(id, 10); // Converter o id para um número inteiro

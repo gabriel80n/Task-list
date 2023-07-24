@@ -10,18 +10,18 @@ export declare class UsersController {
         email: string;
         name: string;
     }>;
+    findByEmail(email: string): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: number;
+        email: string;
+        name: string;
+        password: string;
+    }, unknown> & {}>;
     findAll(): import(".prisma/client").Prisma.PrismaPromise<(import("@prisma/client/runtime/library").GetResult<{
         id: number;
         email: string;
         name: string;
         password: string;
     }, unknown> & {})[]>;
-    findOne(id: string): import(".prisma/client").Prisma.Prisma__UserClient<import("@prisma/client/runtime/library").GetResult<{
-        id: number;
-        email: string;
-        name: string;
-        password: string;
-    }, unknown> & {}, null, import("@prisma/client/runtime/library").DefaultArgs>;
     update(id: string, updateUserDto: UpdateUserDto): Promise<import("@prisma/client/runtime/library").GetResult<{
         id: number;
         email: string;
