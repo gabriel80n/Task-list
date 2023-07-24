@@ -1,0 +1,73 @@
+# compiled output
+nestjs-pgsql-api/dist
+nestjs-pgsql-api/node_modules
+
+# Logs
+nestjs-pgsql-api/logs
+nestjs-pgsql-api/*.log
+nestjs-pgsql-api/npm-debug.log*
+nestjs-pgsql-api/pnpm-debug.log*
+nestjs-pgsql-api/yarn-debug.log*
+nestjs-pgsql-api/yarn-error.log*
+nestjs-pgsql-api/lerna-debug.log*
+
+# OS
+nestjs-pgsql-api/.DS_Store
+
+# Tests
+nestjs-pgsql-api/coverage
+nestjs-pgsql-api/.nyc_output
+
+# IDEs and editors
+nestjs-pgsql-api/.idea
+nestjs-pgsql-api/.project
+nestjs-pgsql-api/.classpath
+nestjs-pgsql-api/.c9/
+nestjs-pgsql-api/*.launch
+nestjs-pgsql-api/.settings/
+nestjs-pgsql-api/*.sublime-workspace
+
+# IDE - VSCode
+nestjs-pgsql-api/.vscode/*
+nestjs-pgsql-api/!.vscode/settings.json
+nestjs-pgsql-api/!.vscode/tasks.json
+nestjs-pgsql-api/!.vscode/launch.json
+nestjs-pgsql-api/!.vscode/extensions.json
+
+nestjs-pgsql-api/.env
+
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/nextjs-web/node_modules
+nextjs-web/.pnp
+nextjs-web/.pnp.js
+
+# testing
+nextjs-web/coverage
+
+# next.js
+nextjs-web/.next/
+nextjs-web/out/
+
+# production
+nextjs-web/build
+
+# misc
+nextjs-web/.DS_Store
+nextjs-web/*.pem
+
+# debug
+nextjs-web/npm-debug.log*
+nextjs-web/yarn-debug.log*
+nextjs-web/yarn-error.log*
+
+# local env files
+nextjs-web/.env*.local
+
+# vercel
+nextjs-web/.vercel
+
+# typescript
+nextjs-web/*.tsbuildinfo
+nextjs-web/next-env.d.ts
