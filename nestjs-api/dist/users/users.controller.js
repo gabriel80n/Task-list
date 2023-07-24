@@ -15,44 +15,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../database/prisma.service");
-const create_user_body_1 = require("./dtos/create-user-body");
 const update_user_body_1 = require("./dtos/update-user-body");
-const bcrypt = require("bcrypt");
+const create_user_body_1 = require("./dtos/create-user-body");
 let UsersController = exports.UsersController = class UsersController {
     constructor(prisma) {
         this.prisma = prisma;
     }
-    async create(body) {
-        const data = {
-            ...body,
-            password: await bcrypt.hash(body.password, 10),
-        };
-        const createdUser = await this.prisma.user.create({ data });
-        return {
-            ...createdUser,
-            password: undefined,
-        };
+    async create(createUserDto) {
+        return this.userService.create(createUserDto);
     }
     async findByEmail(email) {
-        return this.prisma.user.findUnique({
-            where: { email },
-        });
+        return this.userService.findByEmail(email);
     }
     findAll() {
-        return this.prisma.user.findMany();
+        return this.userService.findAll();
     }
     async update(id, updateUserDto) {
-        const userId = parseInt(id, 10);
-        return this.prisma.user.update({
-            where: { id: userId },
-            data: updateUserDto,
-        });
+        return this.userService.update(id, updateUserDto);
     }
     remove(id) {
-        const userId = parseInt(id, 10);
-        return this.prisma.user.delete({
-            where: { id: userId },
-        });
+        return this.userService.Delete(id);
     }
 };
 __decorate([
@@ -70,7 +52,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findByEmail", null);
 __decorate([
-    (0, common_1.Get)(''),
+    (0, common_1.Get)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)

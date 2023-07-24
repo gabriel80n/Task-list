@@ -9,62 +9,44 @@ import {
 } from '@nestjs/common';
 //import { UsersService } from './users.service';
 import { PrismaService } from 'src/database/prisma.service';
-import { CreateUserDto } from './dtos/create-user-body';
 import { UpdateUserDto } from './dtos/update-user-body';
-import * as bcrypt from 'bcrypt';
+import { CreateUserDto } from './dtos/create-user-body';
 
 @Controller('users')
 export class UsersController {
+  userService: any;
   constructor(private prisma: PrismaService) {}
 
   @Post()
-  async create(@Body() body: CreateUserDto) {
-    const data = {
-      ...body,
-      password: await bcrypt.hash(body.password, 10),
-    };
-
-    const createdUser = await this.prisma.user.create({ data });
-    return {
-      ...createdUser,
-      password: undefined,
-    };
+  async create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
   }
 
   @Get(':email')
   async findByEmail(@Param('email') email: string) {
-    return this.prisma.user.findUnique({
-      where: { email },
-    });
+    return this.userService.findByEmail(email);
   }
 
-  @Get('')
+  @Get()
   findAll() {
-    return this.prisma.user.findMany();
+    return this.userService.findAll();
   }
-  /*
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    const userId = parseInt(id, 10);
-    return this.prisma.user.findUnique({
-      where: { id: userId },
-    });
-  }
-*/
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    const userId = parseInt(id, 10); // Converter o id para um número inteiro
-    return this.prisma.user.update({
-      where: { id: userId }, // Usar o userId convertido na consulta do Prisma
-      data: updateUserDto,
-    });
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    const userId = parseInt(id, 10);
-    return this.prisma.user.delete({
-      where: { id: userId },
-    });
+    return this.userService.Delete(id);
   }
 }
+/*
+@Get(':id')
+findOne(@Param('id') id: string) {
+  const userId = parseInt(id, 10);
+  return this.prisma.user.findUnique({
+    where: { id: userId },
+  });
+}
+*/
