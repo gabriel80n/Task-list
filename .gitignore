@@ -1,40 +1,40 @@
 # compiled output
-nestjs-pgsql-api/dist
-nestjs-pgsql-api/node_modules
+nestjs-api/dist
+nestjs-api/node_modules
 
 # Logs
-nestjs-pgsql-api/logs
-nestjs-pgsql-api/*.log
-nestjs-pgsql-api/npm-debug.log*
-nestjs-pgsql-api/pnpm-debug.log*
-nestjs-pgsql-api/yarn-debug.log*
-nestjs-pgsql-api/yarn-error.log*
-nestjs-pgsql-api/lerna-debug.log*
+nestjs-api/logs
+nestjs-api/*.log
+nestjs-api/npm-debug.log*
+nestjs-api/pnpm-debug.log*
+nestjs-api/yarn-debug.log*
+nestjs-api/yarn-error.log*
+nestjs-api/lerna-debug.log*
 
 # OS
-nestjs-pgsql-api/.DS_Store
+nestjs-api/.DS_Store
 
 # Tests
-nestjs-pgsql-api/coverage
-nestjs-pgsql-api/.nyc_output
+nestjs-api/coverage
+nestjs-api/.nyc_output
 
 # IDEs and editors
-nestjs-pgsql-api/.idea
-nestjs-pgsql-api/.project
-nestjs-pgsql-api/.classpath
-nestjs-pgsql-api/.c9/
-nestjs-pgsql-api/*.launch
-nestjs-pgsql-api/.settings/
-nestjs-pgsql-api/*.sublime-workspace
+nestjs-api/.idea
+nestjs-api/.project
+nestjs-api/.classpath
+nestjs-api/.c9/
+nestjs-api/*.launch
+nestjs-api/.settings/
+nestjs-api/*.sublime-workspace
 
 # IDE - VSCode
-nestjs-pgsql-api/.vscode/*
-nestjs-pgsql-api/!.vscode/settings.json
-nestjs-pgsql-api/!.vscode/tasks.json
-nestjs-pgsql-api/!.vscode/launch.json
-nestjs-pgsql-api/!.vscode/extensions.json
+nestjs-api/.vscode/*
+nestjs-api/!.vscode/settings.json
+nestjs-api/!.vscode/tasks.json
+nestjs-api/!.vscode/launch.json
+nestjs-api/!.vscode/extensions.json
 
-nestjs-pgsql-api/.env
+nestjs-api/.env
 
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
