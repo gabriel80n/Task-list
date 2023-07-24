@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import styles from '../styles/Navbar.module.css'
 import '../styles/globals.css'
+import ButtonSignIn from './ButtonSignIn'
 export default function Navbar() {
   return (
     <nav className={styles.navbar}>
@@ -12,7 +13,7 @@ export default function Navbar() {
           <div>
             <Link href={"/connect"}>
 
-              <button className={styles.botao}>Sign up free<span>&rarr;</span></button>
+              <ButtonSignIn/>
 
             </Link>
           </div>

@@ -7,6 +7,7 @@ export default function SignUp() {
       <div>
         <h1>Create your account</h1>
         <input type="text" placeholder="Email adress" className={styles.input}/>
+        <input type="text" placeholder="Password" className={styles.input}/>
         <p><button className={styles.botaoContinue}>Continue</button></p>
         <p>Already have an account? <span className={styles.span}>Log in</span></p>
         <p>------------------OR------------------</p>

@@ -13,17 +13,19 @@ const auth_module_1 = require("./auth/auth.module");
 const core_1 = require("@nestjs/core");
 const jwt_auth_guard_1 = require("./auth/guards/jwt-auth.guard");
 const app_controller_1 = require("./app.controller");
+const app_service_1 = require("./app.service");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [users_module_1.UsersModule, auth_module_1.AuthModule],
-        controllers: [app_controller_1.appController],
+        controllers: [app_controller_1.AppController],
         providers: [
             {
                 provide: core_1.APP_GUARD,
                 useClass: jwt_auth_guard_1.JwtAuthGuard,
             },
+            app_service_1.AppService,
         ],
     })
 ], AppModule);

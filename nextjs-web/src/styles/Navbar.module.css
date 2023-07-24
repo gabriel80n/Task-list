@@ -45,39 +45,6 @@
   font-size: 2.5em;
   align-items: center;
 }
-.botao {
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
-  text-align:left;
-  display: inline-block;
-  position: relative;
-  padding: 15px 30px;
-  border-radius: 30px;
-  background-color: #455BED;
-  color: white;
-  text-decoration: none;
-  border: none;
-  height: 50px;
-  font-size: 1em;
-  width:165px;
-
-}
-.botao:hover{
-  background-color: #049;;
-  transition:0.3;
-  color: white;
-}
-.botao span {
-  position: absolute;
-  color: white;
-  top: 50%;
-  left: 125px; /* Posiciona a seta para fora do botão no início */
-  transform: translateY(-50%) ; /* Centraliza verticalmente a seta */
-  transition: left 0.3s; /* Adiciona uma transição na propriedade left */
-}
-
-.botao:hover span {
-  left: 130px; /* Posiciona a seta para a direita quando o mouse passa sobre o botão */
-}
 
 @media screen and (max-width: 1250px) {
   .navbarLogo {

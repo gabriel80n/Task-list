@@ -1,6 +1,7 @@
 import Link from "next/link";
 import styles from '../styles/Navbar.module.css'
 import pagInicial from '../styles/PagInicial.module.css'
+import ButtonSignIn from "./ButtonSignIn";
 
 export default function PagInicial() {
   return (
@@ -11,7 +12,7 @@ export default function PagInicial() {
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, mollitia magnam delectus pariatur voluptates culpa consectetur eum at vero fugit vel  </p>
             <Link href={"/connect"}>
               
-              <button className={styles.botao}>Sign up free<span>&rarr;</span></button>
+              <ButtonSignIn/>
               
             </Link>
             <p>Colaborate with your team within minutes</p>
