@@ -13,6 +13,7 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../database/prisma.service");
 const bcrypt = require("bcrypt");
+const date_fns_1 = require("date-fns");
 let UsersService = exports.UsersService = class UsersService {
     constructor(prisma) {
         this.prisma = prisma;
@@ -43,10 +44,69 @@ let UsersService = exports.UsersService = class UsersService {
             data: updateUserDto,
         });
     }
-    Delete(id) {
-        const userId = parseInt(id, 10);
-        return this.prisma.user.delete({
-            where: { id: userId },
+    async createProject(createProjectDto) {
+        const user_data = await this.prisma.user.findUnique({
+            where: { email: createProjectDto.email },
+        });
+        const user_id = user_data.id;
+        const currentDate = new Date();
+        const formattedDate = (0, date_fns_1.format)(currentDate, 'dd-MM-yyyy');
+        const name = createProjectDto.name;
+        const data = {
+            createdIn: formattedDate,
+            name: name,
+            ownerId: user_id,
+        };
+        const createdProject = await this.prisma.project.create({ data });
+        return {
+            ...createdProject,
+        };
+    }
+    async getProjects(email) {
+        const user_data = await this.prisma.user.findUnique({
+            where: { email: email },
+        });
+        const user_id = user_data.id;
+        return this.prisma.project.findMany({
+            where: { ownerId: user_id },
+        });
+    }
+    async deleteProject(deleteProjectDto) {
+        const user_data = await this.prisma.user.findUnique({
+            where: {
+                email: deleteProjectDto.email,
+            },
+        });
+        const user_id = user_data.id;
+        return this.prisma.project.delete({
+            where: {
+                id: deleteProjectDto.project_id,
+                ownerId: user_id,
+            },
+        });
+    }
+    async alterProject(updateProject) {
+        const user_data = await this.prisma.user.findUnique({
+            where: {
+                email: updateProject.email,
+            },
+        });
+        const user_id = user_data.id;
+        const project_data = await this.prisma.project.findUnique({
+            where: {
+                id: updateProject.project_id,
+                ownerId: user_id,
+            },
+        });
+        return this.prisma.project.update({
+            where: {
+                id: updateProject.project_id,
+                ownerId: user_id,
+            },
+            data: {
+                ...project_data,
+                name: updateProject.name,
+            },
         });
     }
 };

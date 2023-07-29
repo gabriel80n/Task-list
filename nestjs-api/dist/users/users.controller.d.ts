@@ -1,6 +1,9 @@
 import { UpdateUserDto } from './dtos/update-user-body';
 import { CreateUserDto } from './dtos/create-user-body';
 import { UsersService } from './users.service';
+import { CreateProjectDto } from './dtos/create-project-body';
+import { DeleteProjectDto } from './dtos/delete-project-body';
+import { UpdateProjectDto } from './dtos/update-project-body';
 export declare class UsersController {
     private readonly userService;
     constructor(userService: UsersService);
@@ -28,10 +31,29 @@ export declare class UsersController {
         name: string;
         password: string;
     }, unknown> & {}>;
-    remove(id: string): import(".prisma/client").Prisma.Prisma__UserClient<import("@prisma/client/runtime/library").GetResult<{
+    remove(id: string): string;
+    createProject(createProjectDto: CreateProjectDto): Promise<{
         id: number;
-        email: string;
         name: string;
-        password: string;
-    }, unknown> & {}, never, import("@prisma/client/runtime/library").DefaultArgs>;
+        ownerId: number;
+        createdIn: string;
+    }>;
+    getProjects(email: string): Promise<(import("@prisma/client/runtime/library").GetResult<{
+        id: number;
+        ownerId: number;
+        name: string;
+        createdIn: string;
+    }, unknown> & {})[]>;
+    deleteProject(deleteProjectDto: DeleteProjectDto): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: number;
+        ownerId: number;
+        name: string;
+        createdIn: string;
+    }, unknown> & {}>;
+    alterProject(updateProjectDto: UpdateProjectDto): Promise<import("@prisma/client/runtime/library").GetResult<{
+        id: number;
+        ownerId: number;
+        name: string;
+        createdIn: string;
+    }, unknown> & {}>;
 }

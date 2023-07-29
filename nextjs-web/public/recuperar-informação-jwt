@@ -1,0 +1,23 @@
+// Suponha que você tenha o token armazenado no LocalStorage
+const jwtToken = localStorage.getItem('token');
+
+// Função para extrair o username do payload do token JWT
+const getUsernameFromToken = (token) => {
+  try {
+    // Decodifica o token JWT
+    const decodedToken = jwt_decode(token);
+
+    // Acesse o username do payload do token
+    const username = decodedToken.username;
+    return username;
+  } catch (error) {
+    console.error('Erro ao decodificar o token:', error);
+    return null;
+  }
+};
+
+// Exemplo de uso da função para obter o username do token JWT
+const username = getUsernameFromToken(jwtToken);
+
+// Exemplo de como exibir o username no console
+console.log('Username:', username);

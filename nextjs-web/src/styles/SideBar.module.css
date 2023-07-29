@@ -1,0 +1,89 @@
+.mainDiv {
+  font-family: 'Poppins', sans-serif;
+  background-color: #455BED;
+  height: 100vh;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  padding-top: 20px;
+  position: fixed;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.profileSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+.profileSection div:nth-of-type(1) {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  color:black;
+  font-size: 2em; 
+}
+.optionsRowDiv {
+  display: flex;
+  position: relative;
+}
+.optionsRowDiv span:nth-of-type(1) {
+  position: absolute;
+  top: 20%;
+  left: 10px;
+}
+.profileSection div {
+  font-size: 0.8em;
+  margin-bottom: 20px;
+  color:white;
+}
+.profileSection div p {
+  color:white;
+}
+.profileImage {
+  border-radius: 50%;
+  background-color: white;
+  width: 80px;
+  height: 80px;
+}
+
+.optionsDiv {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+.optionsDivLinha {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+}
+.img {
+  width: 22px;
+  height: 22px;
+}
+.button {
+  font-size: 0.8em;
+  color: white;
+  text-align: left;
+  text-indent: 45px;
+  text-decoration: none;
+  background-color: #455BED;
+  border: none;
+  width: 100%;
+  height:40px;
+}
+.button:hover {
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.linha {
+  width: 130px;
+  height: 1.5px;
+  text-decoration: none;
+  background-color: white;
+}

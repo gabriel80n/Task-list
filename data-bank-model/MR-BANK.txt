@@ -1,0 +1,7 @@
+user(user_id, name, email, password) user_id PK
+project(project_id, user_id, date, name) project_id, user_id ; user_id FK
+task(task_id, project_id, tittle, status, description) task_id, project_id PK ; project_id PK
+colaboration(user_id, project_id) user_id, project_id FK and PK
+
+// PK = PRIMARY KEY
+// FK = FOREIGN KEY

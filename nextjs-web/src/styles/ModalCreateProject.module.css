@@ -1,0 +1,75 @@
+.overlay {
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  left:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.content {
+  top: 50%;
+  font-family: 'Poppins', sans-serif;
+  left: 50%;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 5px;
+  max-width: 400px;
+  padding: 20px;
+  width: 300px;
+  
+}
+.modal h1 {
+  font-size:2em;
+  margin-bottom: 10px;
+}
+.modal > input {
+  margin-bottom: 20px;
+  margin-top: 5px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  text-indent: 10px;
+}
+
+.modal > div > div  {
+  display: flex;
+  justify-content: right;
+  width: 100%;
+}
+
+.modal > div > div > button {
+  border-radius: 5px;
+  width: 90px;
+  height: 30px;
+  border-style: none;
+  margin-left: 10px;
+}
+.modal > div > div > button:nth-of-type(2) {
+  background-color: #37A703;
+  color: white;
+}
+.modal > div > div > button:nth-of-type(2):hover {
+  background-color: #348E09;
+}
+.modal > div > div > button:nth-of-type(1) {
+  background-color: white;
+  border: 1px solid lightgray;
+  color: black;
+}
+.modal > div > div > button:nth-of-type(1):hover {
+  background-color: lightgray;
+} 
+.modal > div > a {
+  position: absolute;
+  top: 0;
+  right:0;
+}
+.modal {
+  position: relative;
+  Display:flex;
+  flex-direction: column;
+}

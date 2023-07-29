@@ -9,13 +9,13 @@ export default function Navbar() {
         <div className={`${styles.logo}`} ><a href="/">Task</a></div>
         <div className={styles.navbarOthers}>
           <div ><a href="/">Contact</a></div>
-          <div ><a href="/">Login</a></div>
+          <div ><Link href={"/login"}>Login</Link></div>
           <div>
-            <Link href={"/connect"}>
 
-              <ButtonSignIn/>
 
-            </Link>
+            <ButtonSignIn />
+
+
           </div>
         </div>
       </div>
