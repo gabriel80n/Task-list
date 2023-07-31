@@ -54,6 +54,7 @@
 }
 .modal > div > div > button:nth-of-type(2):hover {
   background-color: #348E09;
+  cursor: pointer;
 }
 .modal > div > div > button:nth-of-type(1) {
   background-color: white;
@@ -62,6 +63,7 @@
 }
 .modal > div > div > button:nth-of-type(1):hover {
   background-color: lightgray;
+  cursor: pointer;
 } 
 .modal > div > a {
   position: absolute;

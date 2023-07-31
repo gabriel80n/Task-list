@@ -79,6 +79,7 @@
 .button:hover {
   transition: 0.3s;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .linha {

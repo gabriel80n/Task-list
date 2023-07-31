@@ -1,9 +1,6 @@
 import { PrismaService } from 'src/database/prisma.service';
 import { CreateUserDto } from './dtos/create-user-body';
 import { UpdateUserDto } from './dtos/update-user-body';
-import { CreateProjectDto } from './dtos/create-project-body';
-import { DeleteProjectDto } from './dtos/delete-project-body';
-import { UpdateProjectDto } from './dtos/update-project-body';
 export declare class UsersService {
     private prisma;
     constructor(prisma: PrismaService);
@@ -31,28 +28,4 @@ export declare class UsersService {
         name: string;
         password: string;
     }, unknown> & {}, never, import("@prisma/client/runtime/library").DefaultArgs>;
-    createProject(createProjectDto: CreateProjectDto): Promise<{
-        id: number;
-        name: string;
-        ownerId: number;
-        createdIn: string;
-    }>;
-    getProjects(email: string): Promise<(import("@prisma/client/runtime/library").GetResult<{
-        id: number;
-        ownerId: number;
-        name: string;
-        createdIn: string;
-    }, unknown> & {})[]>;
-    deleteProject(deleteProjectDto: DeleteProjectDto): Promise<import("@prisma/client/runtime/library").GetResult<{
-        id: number;
-        ownerId: number;
-        name: string;
-        createdIn: string;
-    }, unknown> & {}>;
-    alterProject(updateProject: UpdateProjectDto): Promise<import("@prisma/client/runtime/library").GetResult<{
-        id: number;
-        ownerId: number;
-        name: string;
-        createdIn: string;
-    }, unknown> & {}>;
 }

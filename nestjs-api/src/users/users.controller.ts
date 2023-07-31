@@ -33,27 +33,20 @@ export class UsersController {
   findAll() {
     return this.userService.findAll();
   }
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto);
-  }
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return 'this.userService.delete(id);';
-  }
-  @Post('projects')
+
+  @Post('att/projects')
   createProject(@Body() createProjectDto: CreateProjectDto) {
     return this.userService.createProject(createProjectDto);
   }
-  @Get('projects/:email')
+  @Get('att/projects/:email')
   getProjects(@Param('email') email: string) {
     return this.userService.getProjects(email);
   }
-  @Delete('projects')
+  @Delete('att/projects')
   deleteProject(@Body() deleteProjectDto: DeleteProjectDto) {
     return this.userService.deleteProject(deleteProjectDto);
   }
-  @Put('projects')
+  @Put('att/projects')
   alterProject(@Body() updateProjectDto: UpdateProjectDto) {
     return this.userService.alterProject(updateProjectDto);
   }

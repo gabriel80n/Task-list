@@ -27,7 +27,7 @@ export default function CustomModal({ isOpen, closeModal}: CustomModalProps) {
   const handleCreateProject = async () => {
     try {
       // Fazer a requisição para o backend
-      await axios.post('http://localhost:3001/users/projects', {
+      await axios.post('http://localhost:3001/users/att/projects', {
         name: projectName,
         email: email
       }, {

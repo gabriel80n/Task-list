@@ -14,7 +14,6 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
-const update_user_body_1 = require("./dtos/update-user-body");
 const create_user_body_1 = require("./dtos/create-user-body");
 const users_service_1 = require("./users.service");
 const is_public_decorator_1 = require("../auth/decorators/is-public.decorator");
@@ -33,12 +32,6 @@ let UsersController = exports.UsersController = class UsersController {
     }
     findAll() {
         return this.userService.findAll();
-    }
-    async update(id, updateUserDto) {
-        return this.userService.update(id, updateUserDto);
-    }
-    remove(id) {
-        return 'this.userService.delete(id);';
     }
     createProject(createProjectDto) {
         return this.userService.createProject(createProjectDto);
@@ -75,43 +68,28 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_user_body_1.UpdateUserDto]),
-    __metadata("design:returntype", Promise)
-], UsersController.prototype, "update", null);
-__decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "remove", null);
-__decorate([
-    (0, common_1.Post)('projects'),
+    (0, common_1.Post)('att/projects'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_project_body_1.CreateProjectDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "createProject", null);
 __decorate([
-    (0, common_1.Get)('projects/:email'),
+    (0, common_1.Get)('att/projects/:email'),
     __param(0, (0, common_1.Param)('email')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getProjects", null);
 __decorate([
-    (0, common_1.Delete)('projects'),
+    (0, common_1.Delete)('att/projects'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [delete_project_body_1.DeleteProjectDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "deleteProject", null);
 __decorate([
-    (0, common_1.Put)('projects'),
+    (0, common_1.Put)('att/projects'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [update_project_body_1.UpdateProjectDto]),

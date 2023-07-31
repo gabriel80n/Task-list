@@ -1,4 +1,3 @@
-import { UpdateUserDto } from './dtos/update-user-body';
 import { CreateUserDto } from './dtos/create-user-body';
 import { UsersService } from './users.service';
 import { CreateProjectDto } from './dtos/create-project-body';
@@ -25,35 +24,8 @@ export declare class UsersController {
         name: string;
         password: string;
     }, unknown> & {})[]>;
-    update(id: string, updateUserDto: UpdateUserDto): Promise<import("@prisma/client/runtime/library").GetResult<{
-        id: number;
-        email: string;
-        name: string;
-        password: string;
-    }, unknown> & {}>;
-    remove(id: string): string;
-    createProject(createProjectDto: CreateProjectDto): Promise<{
-        id: number;
-        name: string;
-        ownerId: number;
-        createdIn: string;
-    }>;
-    getProjects(email: string): Promise<(import("@prisma/client/runtime/library").GetResult<{
-        id: number;
-        ownerId: number;
-        name: string;
-        createdIn: string;
-    }, unknown> & {})[]>;
-    deleteProject(deleteProjectDto: DeleteProjectDto): Promise<import("@prisma/client/runtime/library").GetResult<{
-        id: number;
-        ownerId: number;
-        name: string;
-        createdIn: string;
-    }, unknown> & {}>;
-    alterProject(updateProjectDto: UpdateProjectDto): Promise<import("@prisma/client/runtime/library").GetResult<{
-        id: number;
-        ownerId: number;
-        name: string;
-        createdIn: string;
-    }, unknown> & {}>;
+    createProject(createProjectDto: CreateProjectDto): any;
+    getProjects(email: string): any;
+    deleteProject(deleteProjectDto: DeleteProjectDto): any;
+    alterProject(updateProjectDto: UpdateProjectDto): any;
 }

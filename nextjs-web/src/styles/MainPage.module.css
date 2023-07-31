@@ -38,6 +38,8 @@
 }
 .buttonNewProject:hover {
   background-color: #348E09;
+  cursor: pointer;
+  transition: 0.3s;
 }
 .projectList {
   width: 95%;
@@ -54,18 +56,31 @@
 }
 .projectDiv:hover {
   background-color: #EEF6FC;
+  cursor: pointer;
+  transition: 0.3s;
 }
+.projectDiv:hover button {
+  background-color: #EEF6FC;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.projectDiv:hover input {
+background-color: white;
+cursor: pointer;
+transition: 0.3s;
+}
+
 .projectLink div:nth-of-type(2) {
   display: flex;
   justify-content: right;
-  width:50%;
+  width:30%;
   
 }
 .projectLink div:nth-of-type(1) {
   display: flex;
   justify-content: left;
-  text-indent: 30px;
-  width:50%;
+  margin-left: 30px;
+  width:70%;
   
 }
 .projectDiv {
@@ -83,4 +98,48 @@
   top: 50%;
   transform: translate(-50%, -50%) scale(1.5);
   border: 1px solid gray;
+}
+.deleteButton {
+  color: white;
+  border-style: none;
+  background-color: white;
+  margin: 0px 10px;
+}
+.deleteButton:hover {
+  background-color: #EEF6FC;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.deleteButton:hover img {
+  transform: scale(1.2);
+}
+.show {
+  display: block;
+}
+.hide {
+  display: none;
+}
+.editInput {
+  font-family: 'Poppins', sans-serif;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+  text-indent: 5px;
+  border-style: none;
+  font-size: 1em;
+  width:100%;
+}
+.editInput:focus {
+  outline: none;
+}
+.img {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s;
+}
+.date {
+  margin-left:10px;
+}
+.editting {
+  background-color: #EEF6FC;
 }
