@@ -1,47 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import styles from '../styles/ModalCreateProject.module.css'
-import axios from 'axios';
 import getEmailFromToken from '@/dataFunctions/getEmailFromToken';
-import error from 'next/error';
+import handleCreateProject from '@/dataFunctions/handleCreateProject';
 
 
 interface CustomModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  
 }
 
 export default function CustomModal({ isOpen, closeModal}: CustomModalProps) {
   Modal.setAppElement('#__next');
   const [projectName, setProjectName] = React.useState('');
   const [jwtToken, setJwtToken] = useState('')
+  const email = jwtToken ? getEmailFromToken(jwtToken) : null;
 
   useEffect(() => {
     const token = localStorage.getItem('_SESSIONID');
     setJwtToken(token || '')
   }, []);
 
-  const email = jwtToken ? getEmailFromToken(jwtToken) : null;
-
-  const handleCreateProject = async () => {
-    try {
-      // Fazer a requisição para o backend
-      await axios.post('http://localhost:3001/users/att/projects', {
-        name: projectName,
-        email: email
-      }, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        }
-      });
-      window.location.reload();
-      closeModal();
-    } catch (error) {
-      console.error('Erro ao criar o projeto:', error);
-      // Lógica para tratar erros, se necessário
-    }
-  };
+  const createProject = () => {
+    handleCreateProject({projectName, email, jwtToken});
+    closeModal();
+  }
   return (
     <Modal
       isOpen={isOpen}
@@ -63,7 +46,7 @@ export default function CustomModal({ isOpen, closeModal}: CustomModalProps) {
           <a onClick={closeModal}><img src="/icons/excluir.png" alt="" /> </a>
           <div>
             <button onClick={closeModal}>Cancelar</button>
-            <button onClick={handleCreateProject}>Criar</button>
+            <button onClick={createProject}>Criar</button>
           </div>
         </div>
       </div>

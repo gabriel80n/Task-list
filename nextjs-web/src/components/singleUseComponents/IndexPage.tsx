@@ -1,5 +1,5 @@
-import pagInicial from '../styles/PagInicial.module.css'
-import ButtonSignIn from "./ButtonSignIn";
+import pagInicial from '../styles/IndexPage.module.css'
+import ButtonSignIn from "../reusebleComponents/ButtonSignIn";
 
 export default function PagInicial() {
   return (

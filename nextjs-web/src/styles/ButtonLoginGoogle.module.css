@@ -1,0 +1,23 @@
+.botaoGoogle {
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+  border: 1px solid rgb(170, 164, 164);
+  width: 100%;
+  height: 50px;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: white;
+}
+.botaoGoogle img {
+  position: absolute;
+  transform: translateY(-50%) ;
+  top: 50%;
+  left: 19%;
+  width: 28px;
+  height: 28px;
+}
+.botaoGoogle:hover {
+  background-color: lightgray;
+  transition:0.3;
+}

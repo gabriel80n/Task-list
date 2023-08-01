@@ -33,23 +33,6 @@ export class UsersController {
   findAll() {
     return this.userService.findAll();
   }
-
-  @Post('att/projects')
-  createProject(@Body() createProjectDto: CreateProjectDto) {
-    return this.userService.createProject(createProjectDto);
-  }
-  @Get('att/projects/:email')
-  getProjects(@Param('email') email: string) {
-    return this.userService.getProjects(email);
-  }
-  @Delete('att/projects')
-  deleteProject(@Body() deleteProjectDto: DeleteProjectDto) {
-    return this.userService.deleteProject(deleteProjectDto);
-  }
-  @Put('att/projects')
-  alterProject(@Body() updateProjectDto: UpdateProjectDto) {
-    return this.userService.alterProject(updateProjectDto);
-  }
 }
 /*
 @Get(':id')

@@ -4,6 +4,7 @@ import styles from '../styles/SignUp.module.css';
 import '../styles/globals.css';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import ButtonLoginGoogle from '../reusebleComponents/ButtonLoginGoogle';
 
 export default function SignUp() {
   if (typeof window !== 'undefined') {
@@ -68,9 +69,7 @@ export default function SignUp() {
           Already have an account? <span className={styles.span}><Link href={"/login"}>Log In</Link></span>
         </p>
         <p>------------------OR------------------</p>
-        <button className={styles.botaoGoogle}>
-          <img src="/imagens/google (2).png" alt="" /> Continue with google
-        </button>
+        <ButtonLoginGoogle/>
       </div>
     </div>
   );

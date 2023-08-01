@@ -1,8 +1,5 @@
 import { CreateUserDto } from './dtos/create-user-body';
 import { UsersService } from './users.service';
-import { CreateProjectDto } from './dtos/create-project-body';
-import { DeleteProjectDto } from './dtos/delete-project-body';
-import { UpdateProjectDto } from './dtos/update-project-body';
 export declare class UsersController {
     private readonly userService;
     constructor(userService: UsersService);
@@ -24,8 +21,4 @@ export declare class UsersController {
         name: string;
         password: string;
     }, unknown> & {})[]>;
-    createProject(createProjectDto: CreateProjectDto): any;
-    getProjects(email: string): any;
-    deleteProject(deleteProjectDto: DeleteProjectDto): any;
-    alterProject(updateProjectDto: UpdateProjectDto): any;
 }

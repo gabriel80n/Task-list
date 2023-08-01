@@ -16,19 +16,19 @@ import { UpdateProjectDto } from 'src/users/dtos/update-project-body';
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
-  @Post('att/projects')
+  @Post('')
   createProject(@Body() createProjectDto: CreateProjectDto) {
     return this.projectsService.createProject(createProjectDto);
   }
-  @Get('att/projects/:email')
+  @Get(':email')
   getProjects(@Param('email') email: string) {
     return this.projectsService.getProjects(email);
   }
-  @Delete('att/projects')
+  @Delete('')
   deleteProject(@Body() deleteProjectDto: DeleteProjectDto) {
     return this.projectsService.deleteProject(deleteProjectDto);
   }
-  @Put('att/projects')
+  @Put('')
   alterProject(@Body() updateProjectDto: UpdateProjectDto) {
     return this.projectsService.alterProject(updateProjectDto);
   }

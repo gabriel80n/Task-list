@@ -4,7 +4,7 @@ import styles from '../styles/SignUp.module.css';
 import '../styles/globals.css';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import jwt_decode from 'jsonwebtoken';
+import ButtonLoginGoogle from '../reusebleComponents/ButtonLoginGoogle';
 //localStorage.setItem('_SESSIONID', jwtToken);
 export default function Login() {
   const router = useRouter();
@@ -67,18 +67,10 @@ export default function Login() {
           Don't have an account? <span className={styles.span}><Link href={"/signIn"}>Sign In</Link></span>
         </p>
         <p>------------------OR------------------</p>
-        <button className={styles.botaoGoogle}>
-          <img src="/imagens/google (2).png" alt="" /> Continue with google 
-        </button>
+        <ButtonLoginGoogle/>
       </div>
     </div>
   );
 }
 
-function setLoading(arg0: boolean) {
-  throw new Error('Function not implemented.');
-}
-function setData(data: any) {
-  throw new Error('Function not implemented.');
-}
 

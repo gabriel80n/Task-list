@@ -1,13 +1,15 @@
-import SideBar from "@/components/SideBar";
+import SideBar from "@/components/reusebleComponents/SideBar";
 import '../styles/globals.css';
 import styles from '../styles/MainPage.module.css'
 import { useEffect, useState } from "react";
-import CustomModal from "@/components/ModalCreateProject";
+import CustomModal from "@/components/singleUseComponents/ModalCreateProject";
 import Link from "next/link";
 import getUsernameFromToken from "@/dataFunctions/getUsernameFromToken";
 import getEmailFromToken from "@/dataFunctions/getEmailFromToken";
-import axios from "axios";
-import ProtectedRoute from "./ProtectedRoute";
+import ProtectedRoute from "../reusebleComponents/ProtectedRoute";
+import handleDeleteProject from "@/dataFunctions/handleDeleteProject";
+import { fetchProjects } from "@/dataFunctions/fetchProjects";
+import handleUpdateProject from "@/dataFunctions/handleUpdateProject";
 
 interface Projects {
   id: number;
@@ -25,94 +27,35 @@ export function MainPage() {
   const [editingProjectId, setEditingProjectId] = useState<number | null>(null);
   const [newProjectName, setNewProjectName] = useState("");
   const [isEditting, setIsEditting] = useState(false);
-  // Verifica se está no lado do cliente antes de acessar o localStorage
+  const [isDeleted, setIsDeleted] = useState(false);
+  // Verifica se está no lado do cliente e pega o valor do token
   useEffect(() => {
     const token = localStorage.getItem('_SESSIONID');
     setJwtToken(token || '')
   }, []);
-
-  // obter o username e email do toke
+//---------------------------------------------------------------------------------------------------------------------
+  // obter o username e email do token
   const username = jwtToken ? getUsernameFromToken(jwtToken) : null;
   const email = jwtToken ? getEmailFromToken(jwtToken) : null;
-
+//---------------------------------------------------------------------------------------------------------------------
   // Função assíncrona para buscar os projetos do usuário
-  // Define the fetchProjects function outside the useEffect
-  const fetchProjects = async () => {
-    try {
-      const response = await axios.get<Projects, any>('http://localhost:3001/users/att/projects/' + `${email}`, {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      });
-      setProjects(response.data);
-    } catch (error) {
-      console.error('Erro ao buscar projetos:', error);
-    }
-  };
-
   useEffect(() => {
-    // Call the fetchProjects function
     if (jwtToken) {
-      fetchProjects();
+      fetchProjects(jwtToken, email)
+        .then((data) => setProjects(data))
+        .catch((error) => console.error("Erro ao buscar projetos:", error));
     }
   }, [jwtToken]);
-
-  const [isDeleted, setIsDeleted] = useState(false);
-  const handleDeleteProject = async () => {
-    try {
-      // Fazer a requisição para o backend
-      if (!selectedProjectId) {
-        // Nenhum projeto selecionado, faça alguma ação ou exiba um aviso
-        return;
-      }
-      await axios.delete('http://localhost:3001/users/att/projects/', {
-        headers: {
-          Authorization: `Bearer ${jwtToken}`,
-        },
-        data: {
-          project_id: selectedProjectId,
-          email: email,
-        },
-      });
-      setIsCheckBoxChecked(false);
-      setIsDeleted(true);
-    } catch (error) {
-      console.error('Erro ao deletar o projeto:', error);
-      // Lógica para tratar erros, se necessário
-    }
+//---------------------------------------------------------------------------------------------------------------------
+// Delete a project
+  const updateMainPageState = (isChecked: boolean) => {
+    setIsCheckBoxChecked(isChecked);
   };
-  // UseEffect to reload the page when a project is deleted
-  useEffect(() => {
-    if (isDeleted) {
-      window.location.reload();
-    }
-  }, [isDeleted]);
+  const deleteProject = () => {
+    handleDeleteProject(updateMainPageState,{jwtToken, selectedProjectId, email})
+  }
 
-  const handleUpdateProject = async (projectId: number, newName: string) => {
-    try {
-      await axios.put(
-        'http://localhost:3001/users/att/projects',
-        {
-          project_id: projectId,
-          name: newName,
-          email: email,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      );
-
-      // Fetch projects again to get the updated data
-      fetchProjects();
-      window.location.reload();
-    } catch (error) {
-      console.error('Erro ao atualizar o projeto:', error);
-      // Lógica para tratar erros, se necessário
-    }
-  };
-
+//---------------------------------------------------------------------------------------------------------------------
   //Lida com o modal
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -136,18 +79,18 @@ export function MainPage() {
         <div className={styles.projectList}>
           <h2>All projects</h2>
 
-          {projects.map((project) => (
+          {projects.map((project) => ( // Cria dinamicamente os projetos nas paginas
             <div key={project.id} className={`${styles.projectDiv} ${selectedProjectId === project.id ? styles.editting : ""}`}>
               <input
                 type="checkbox"
                 className={styles.checkbox}
                 onChange={(e) => {
-                  setIsCheckBoxChecked(e.target.checked);
-                  setSelectedProjectId(e.target.checked ? project.id : null);
-                  setEditingProjectId(null);
-                  setIsEditting(false);
+                  setIsCheckBoxChecked(e.target.checked); // True se a checkbox estiver selecionada
+                  setSelectedProjectId(e.target.checked ? project.id : null); // Pega o id do projeto selecionado
+                  setEditingProjectId(null); // Reseta o valor do id do projeto que esta sendo editado caso alguma outra checkbox seja selecionada ao editar
+                  setIsEditting(false); // Cancela a edição caso outra checkbox seja selecionada
                   if (e.target.checked) {
-                    setNewProjectName(project.name); // Set the initial value for the input
+                    setNewProjectName(project.name); 
                   }
                 }}
                 checked={selectedProjectId === project.id}
@@ -169,7 +112,7 @@ export function MainPage() {
                   {selectedProjectId === project.id && (
                     <>
                       <button
-                        onClick={handleDeleteProject}
+                        onClick={deleteProject}
                         className={`${styles.deleteButton} ${isCheckBoxChecked && !isEditting ? styles.show : styles.hide} ${selectedProjectId === project.id ? styles.editting : ""}`}
                       >
                         <img className={styles.img } src="/icons/delete.png" alt="" />
@@ -178,7 +121,7 @@ export function MainPage() {
                         onClick={() => {
                           if (editingProjectId === project.id) {
                             // Perform the update with the new project name
-                            handleUpdateProject(project.id, newProjectName);
+                            handleUpdateProject(project.id, newProjectName, email, jwtToken );
                             setIsEditting(false);
                           }
                           setIsEditting(true);
@@ -199,6 +142,7 @@ export function MainPage() {
               </Link>
             </div>
           ))}
+
         </div>
       </div>
     </main>

@@ -1,6 +1,6 @@
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/singleUseComponents/Navbar';
 import '../styles/globals.css';
-import PagInicial from '@/components/PagInicial';
+import IndexPage from '@/components/singleUseComponents/IndexPage';
 
 
 
@@ -11,7 +11,7 @@ export default function Home() {
         <Navbar />
       </header>
       <div>
-        <PagInicial/>
+        <IndexPage/>
       </div>
     </>
   )
