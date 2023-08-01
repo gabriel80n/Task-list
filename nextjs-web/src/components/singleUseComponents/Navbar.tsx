@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import styles from '../styles/Navbar.module.css'
-import '../styles/globals.css'
-import ButtonSignIn from './ButtonSignIn'
+import styles from '../../styles/Navbar.module.css'
+import '../../styles/globals.css'
+import ButtonSignIn from '../reusebleComponents/ButtonSignIn'
 export default function Navbar() {
   return (
     <nav className={styles.navbar}>

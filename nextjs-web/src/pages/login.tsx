@@ -1,4 +1,4 @@
-import Login from "@/components/Login";
+import Login from "@/components/singleUseComponents/Login";
 import '../styles/globals.css';
 
 export default function login() {

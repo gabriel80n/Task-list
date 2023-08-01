@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import styles from '../styles/SignUp.module.css';
-import '../styles/globals.css';
+import styles from '../../styles/SignUp.module.css';
+import '../../styles/globals.css';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import ButtonLoginGoogle from '../reusebleComponents/ButtonLoginGoogle';

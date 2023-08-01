@@ -1,4 +1,4 @@
-import styles from '../styles/SideBar.module.css'
+import styles from '../../styles/SideBar.module.css'
 
 type SideBarProps = {
   mensagem: string | null;

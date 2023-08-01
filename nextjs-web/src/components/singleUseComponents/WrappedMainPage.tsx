@@ -1,6 +1,6 @@
 import SideBar from "@/components/reusebleComponents/SideBar";
-import '../styles/globals.css';
-import styles from '../styles/MainPage.module.css'
+import '../../styles/globals.css';
+import styles from '../../styles/MainPage.module.css'
 import { useEffect, useState } from "react";
 import CustomModal from "@/components/singleUseComponents/ModalCreateProject";
 import Link from "next/link";
