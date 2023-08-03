@@ -1,20 +1,7 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  Put,
-} from '@nestjs/common';
-import { UpdateUserDto } from './dtos/update-user-body';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user-body';
 import { UsersService } from './users.service';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
-import { CreateProjectDto } from './dtos/create-project-body';
-import { DeleteProjectDto } from './dtos/delete-project-body';
-import { UpdateProjectDto } from './dtos/update-project-body';
 
 @Controller('users')
 export class UsersController {

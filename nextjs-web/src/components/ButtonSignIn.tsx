@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import styles from '../../styles/ButtonSignIn.module.css'
+import styles from '../styles/ButtonSignIn.module.css'
 
 export default function ButtonSignIn() {
   return (

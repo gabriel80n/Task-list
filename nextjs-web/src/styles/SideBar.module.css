@@ -1,6 +1,6 @@
 .mainDiv {
   font-family: 'Poppins', sans-serif;
-  background-color: #455BED;
+  background-color: #0A0543;
   height: 100vh;
   width: 150px;
   display: flex;
@@ -71,7 +71,7 @@
   text-align: left;
   text-indent: 45px;
   text-decoration: none;
-  background-color: #455BED;
+  background-color: #0A0543;
   border: none;
   width: 100%;
   height:40px;

@@ -6,16 +6,14 @@ import {
   UseGuards,
   Request,
   Get,
-  Body,
-  Ip,
   Req,
-  HttpException,
+  Res,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthRequest } from './models/authRequest';
 import { IsPublic } from './decorators/is-public.decorator';
-import GoogleTokenDto from './models/google-login-body';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller()
 export class AuthController {
@@ -28,25 +26,18 @@ export class AuthController {
   login(@Request() req: AuthRequest) {
     return this.authService.login(req.user);
   }
+
+  @UseGuards(AuthGuard('google'))
+  @Get('auth/google/login')
   @IsPublic()
-  @Get()
-  loginGoogleUser(@Body() token: string) {
-    return this.authService.loginGoogleUser(token);
-  }
-  @Post('google/login')
-  async googleLogin(@Body() body: GoogleTokenDto) {
-    const result = await this.authService.loginGoogleUser(body.token);
-    if (result) {
-      return result;
-    } else {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNAUTHORIZED,
-          error: 'Error while logging with google',
-        },
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async googleLogin(@Req() req) {}
+
+  @UseGuards(AuthGuard('google'))
+  @Get('auth/google/callback')
+  @IsPublic()
+  googleAuthRedirect(@Req() req, @Res() res) {
+    return this.authService.googleAuthRedirect(req, res);
   }
   @Get('route/verify')
   routeVerify() {

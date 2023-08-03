@@ -1,8 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import LoginPage from "../../pages/login"; // Importe a página de login (crie o arquivo se ainda não existir)
+import LoginPage from "../pages/login"; // Importe a página de login (crie o arquivo se ainda não existir)
 import axios from "axios";
-import { verify } from "jsonwebtoken";
 
 interface ProtectedRouteProps {
   children: ReactNode;

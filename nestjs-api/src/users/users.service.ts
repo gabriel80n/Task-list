@@ -3,14 +3,11 @@ import { PrismaService } from 'src/database/prisma.service';
 import { CreateUserDto } from './dtos/create-user-body';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dtos/update-user-body';
-import { CreateProjectDto } from './dtos/create-project-body';
-import { format } from 'date-fns';
-import { DeleteProjectDto } from './dtos/delete-project-body';
-import { UpdateProjectDto } from './dtos/update-project-body';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
+
   async create(body: CreateUserDto) {
     const data = {
       ...body,
@@ -23,6 +20,7 @@ export class UsersService {
       password: undefined,
     };
   }
+
   findByEmail(email: string) {
     return this.prisma.user.findUnique({
       where: { email },

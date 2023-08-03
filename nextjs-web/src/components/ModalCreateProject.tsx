@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import styles from '../../styles/ModalCreateProject.module.css'
+import styles from '../styles/ModalCreateProject.module.css'
 import getEmailFromToken from '@/dataFunctions/getEmailFromToken';
 import handleCreateProject from '@/dataFunctions/handleCreateProject';
 

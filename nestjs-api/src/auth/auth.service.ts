@@ -1,24 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Res } from '@nestjs/common';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
 import { UserPayload } from './models/UserPayload';
 import { JwtService } from '@nestjs/jwt';
 import { UserToken } from './models/UserToken';
-import { Auth, google } from 'googleapis';
+import { CreateUserDto } from 'src/users/dtos/create-user-body';
 
 @Injectable()
 export class AuthService {
-  private oauthClient: Auth.OAuth2Client;
-
   constructor(
     private readonly userService: UsersService,
     private readonly jwtService: JwtService,
-  ) {
-    const clientId = process.env.GOOGLE_CLIENT_ID;
-    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-    this.oauthClient = new google.auth.OAuth2(clientId, clientSecret);
-  }
+  ) {}
 
   login(user: User): UserToken {
     // transforma o user em um JWT
@@ -49,20 +43,45 @@ export class AuthService {
     throw new Error('Email adress or password provided is incorrect.');
   }
 
-  async loginGoogleUser(token: string) {
-    const tokenInfo = await this.oauthClient.getTokenInfo(token);
-    console.log(tokenInfo);
-    const email = await this.userService.findByEmail(tokenInfo.email);
-    if (email) {
-      const payload = {
-        email: email,
-        name: 'User',
+  //googleLogin(req) {}
+  async googleAuthRedirect(req, res) {
+    if (!req.user) {
+      return { message: 'No user from google' };
+    }
+
+    const user: CreateUserDto = {
+      name: req.user.firstName,
+      email: req.user.email,
+      password: null,
+    };
+
+    let userToken = null;
+
+    try {
+      // Verifica se o usuário já existe no banco de dados
+      const userBank = await this.userService.findByEmail(req.user.email);
+
+      if (!userBank) {
+        // Se o usuário não existe, cria o usuário
+        userToken = await this.userService.create(user);
+      } else {
+        // Se o usuário já existe, usa o token do usuário existente
+        userToken = userBank;
+      }
+
+      // Gerar o token JWT com os dados do usuário criado ou existente
+      const payload: UserPayload = {
+        sub: userToken.id,
+        email: userToken.email,
+        name: userToken.name,
       };
       const jwtToken = this.jwtService.sign(payload);
-      return {
-        access_token: jwtToken,
-      };
+
+      const redirectUrl = `http://localhost:3000/callbackPage?token=${jwtToken}`;
+      return res.redirect(redirectUrl);
+    } catch (error) {
+      console.error('Erro no callback do Google:', error);
+      return { message: 'Internal server error' };
     }
-    return undefined;
   }
 }
