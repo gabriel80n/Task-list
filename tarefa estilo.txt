@@ -1,0 +1,7 @@
+<div className={styles.task}>
+              <div className={styles.taskPrioridade}></div>
+              <div className={styles.taskContent}>
+                <div className={styles.taskTittle}>Valorant</div>
+                <div className={styles.taskDescrition}>Subir para o imortal</div>
+              </div>
+            </div>

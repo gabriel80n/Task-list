@@ -94,7 +94,7 @@ export function Page() {
                 }}
                 checked={selectedProjectId === project.id}
               />
-              <Link href={"/mainPage"} className={styles.projectLink}>
+              <Link href={`/tasksPage?projectId=${project.id}&projectName=${project.name}`} className={styles.projectLink}>
                 <div>
                   {editingProjectId === project.id ? (
                     <input

@@ -6,9 +6,10 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProjectsModule } from './projects/projects.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
-  imports: [UsersModule, AuthModule, ProjectsModule],
+  imports: [UsersModule, AuthModule, ProjectsModule, TasksModule],
   controllers: [AppController],
   providers: [
     {

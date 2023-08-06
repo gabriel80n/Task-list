@@ -15,11 +15,12 @@ const jwt_auth_guard_1 = require("./auth/guards/jwt-auth.guard");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const projects_module_1 = require("./projects/projects.module");
+const tasks_module_1 = require("./tasks/tasks.module");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [users_module_1.UsersModule, auth_module_1.AuthModule, projects_module_1.ProjectsModule],
+        imports: [users_module_1.UsersModule, auth_module_1.AuthModule, projects_module_1.ProjectsModule, tasks_module_1.TasksModule],
         controllers: [app_controller_1.AppController],
         providers: [
             {

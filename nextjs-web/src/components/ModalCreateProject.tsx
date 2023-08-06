@@ -12,7 +12,7 @@ interface CustomModalProps {
 
 export default function CustomModal({ isOpen, closeModal}: CustomModalProps) {
   Modal.setAppElement('#__next');
-  const [projectName, setProjectName] = React.useState('');
+  const [projectName, setProjectName] = useState('');
   const [jwtToken, setJwtToken] = useState('')
   const email = jwtToken ? getEmailFromToken(jwtToken) : null;
 

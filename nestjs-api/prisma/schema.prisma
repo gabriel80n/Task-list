@@ -31,7 +31,9 @@ model Project {
 
 model Task {
   id          Int     @id @default(autoincrement())
+  title       String
   description String
+  prioridade  String
   status      String // Aqui você pode adicionar outros campos relacionados a uma tarefa
   projectId   Int // Chave estrangeira referenciando o id do projeto ao qual a tarefa pertence
   project     Project @relation(fields: [projectId], references: [id])
