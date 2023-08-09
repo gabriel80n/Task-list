@@ -25,7 +25,7 @@ export default async function handleCreateTask({title, description, priority, st
         Authorization: `Bearer ${jwtToken}`,
       }
     })
-    //window.location.reload();
+    window.location.reload();
   } catch (error) {
     
     console.error('Erro ao criar a task:', error);

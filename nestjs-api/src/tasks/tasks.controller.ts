@@ -27,8 +27,8 @@ export class TasksController {
   }
 
   @Put(':id')
-  updateTaskStatus(@Param('id') id: string, @Body() status: string) {
-    return this.tasksService.updateTaskStatus(+id, status);
+  updateTaskStatus(@Param('id') id: string, @Body() novoStatus: string) {
+    return this.tasksService.updateTaskStatus(+id, novoStatus);
   }
 
   @Patch(':id')

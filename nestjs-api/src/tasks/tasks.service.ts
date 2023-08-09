@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { PrismaService } from 'src/database/prisma.service';
@@ -32,18 +32,27 @@ export class TasksService {
     }
   }
 
-  async updateTaskStatus(id: number, status: string) {
-    const task = await this.prisma.task.findUnique({
-      where: { id: id },
-    });
-    const data = {
-      ...task,
-      status: status,
-    };
-    return this.prisma.task.update({
-      where: { id: id }, // Usar o userId convertido na consulta do Prisma
-      data: data,
-    });
+  async updateTaskStatus(id: number, novoStatus: any) {
+    console.log(novoStatus);
+    try {
+      const task = await this.prisma.task.findUnique({
+        where: { id: id },
+      });
+      return await this.prisma.task.update({
+        where: { id: id },
+        data: {
+          ...task,
+          status: novoStatus.status,
+        },
+      });
+    } catch (error) {
+      console.error('Erro ao atualizar o status da tarefa:', error);
+      throw new InternalServerErrorException(
+        'Erro ao atualizar o status da tarefa',
+      );
+      // Ou você pode personalizar a mensagem de erro, se necessário
+      // throw new InternalServerErrorException('Erro ao atualizar o status da tarefa: ' + error.message);
+    }
   }
 
   update(id: number, updateTaskDto: UpdateTaskDto) {
