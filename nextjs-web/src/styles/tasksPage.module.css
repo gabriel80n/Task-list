@@ -44,11 +44,15 @@
   justify-content: space-between;
 }
 .taskColumn {
-  padding: 15px 15px 0px 15px;
   border-radius: 5px;
-  width: 21%;
+  width: 225px;
+  background-color: white;
+}
+.cinza {
   background-color: #f2f2f2;
-  
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
 }
 .columnTittle {
   display: flex;
@@ -66,7 +70,7 @@
   
 }
 .taskPrioridade {
-  width: 5px;
+  width: 6px;
 }
 .taskContent { 
   right-border-radius: 10px;

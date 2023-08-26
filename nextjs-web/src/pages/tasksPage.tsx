@@ -5,20 +5,15 @@ import '../styles/globals.css';
 import styles from '../styles/tasksPage.module.css'
 import Link from "next/link";
 import { useRouter } from "next/router";
-import CustomModal from "@/components/ModalCreateTask";
+import ModalCreateTask from "@/components/ModalCreateTask";
+import ModalEditTask from "@/components/ModalEditTask";
 import Modal from 'react-modal';
 import axios from "axios";
-import { DragDropContext, Draggable, Droppable, resetServerContext } from "react-beautiful-dnd";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
-import { GetServerSideProps } from "next";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 
-  resetServerContext()   // <-- CALL RESET SERVER CONTEXT, SERVER SIDE
-
-  return { props: { data: [] } }
-
-}
 type Tasks = {
   id: number;
   title: string;
@@ -27,9 +22,10 @@ type Tasks = {
   prioridade: string;
 }
 
-export default function tasksPage() {
+export function Tasks() {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
   const projectIdFromQuery = router.query.projectId;
   const projectId = Array.isArray(projectIdFromQuery) ? projectIdFromQuery[0] : projectIdFromQuery;
   const projectName = router.query.projectName;
@@ -89,6 +85,12 @@ export default function tasksPage() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  const handleOpenModalEdit = () => {
+    setIsModalEditOpen(true);
+  };
+  const handleCloseModalEdit = () => {
+    setIsModalEditOpen(false);
+  };
   const handleAddTaskClick = (columnTitle: string) => {
     setSelectedColumn(columnTitle);
     setIsModalOpen(true);
@@ -136,24 +138,28 @@ export default function tasksPage() {
       return;
     }
 
-
     const sourceColumnId = result.source.droppableId;
-    const destinationColumnId = result.destination.droppableId.toString();;
+    const destinationColumnId = result.destination.droppableId;
 
-    // Verifica se a tarefa foi arrastada para uma coluna diferente
-    if (sourceColumnId !== destinationColumnId) {
-      const taskToMove = getColumnTasks(sourceColumnId)[result.source.index];
-      // Remove a tarefa da coluna de origem
-      const updatedSourceTasks = getColumnTasks(sourceColumnId).filter(
-        (_, index) => index !== result.source.index
-      );
+    const sourceTasks = getColumnTasks(sourceColumnId);
+    const taskToMove = sourceTasks[result.source.index];
+
+    // Se estiver na mesma coluna
+    if (sourceColumnId === destinationColumnId) {
+      const updatedTasks = [...sourceTasks];
+      updatedTasks.splice(result.source.index, 1); // Remove a tarefa da posição original
+      updatedTasks.splice(result.destination.index, 0, taskToMove); // Insere a tarefa na nova posição
+      updateColumnTasks(sourceColumnId, updatedTasks);
+    }
+    // Se estiver em colunas diferentes
+    else {
+      const updatedSourceTasks = sourceTasks.filter((_, index) => index !== result.source.index);
       updateColumnTasks(sourceColumnId, updatedSourceTasks);
-      // Adiciona a tarefa na coluna de destino
-      const updatedDestinationTasks = [...getColumnTasks(destinationColumnId)];
+
+      const destinationTasks = getColumnTasks(destinationColumnId);
+      const updatedDestinationTasks = [...destinationTasks];
       updatedDestinationTasks.splice(result.destination.index, 0, taskToMove);
       updateColumnTasks(destinationColumnId, updatedDestinationTasks);
-
-      // Atualiza o status da tarefa no backend
 
       try {
         await axios.put(
@@ -167,7 +173,6 @@ export default function tasksPage() {
         );
       } catch (error) {
         console.error('Erro ao atualizar o status da tarefa:', error);
-        // Desfazer a mudança no frontend em caso de erro
         updateColumnTasks(sourceColumnId, [...updatedSourceTasks, taskToMove]);
         updateColumnTasks(destinationColumnId, updatedDestinationTasks.filter((_, index) => index !== result.destination.index));
       }
@@ -175,182 +180,223 @@ export default function tasksPage() {
   };
 
 
-  return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <div className={styles.initialPagePrincipalDiv}>
-        <SideBar mensagem={username} />
-        <main className={styles.main}>
-          <div className={styles.title}>
-            <div>
-              <Link href='/mainPage'><img className={styles.imgGoBack} src="/icons/voltar.png" alt="voltar" /></Link>
-            </div>
-            <div className={styles.tittleNameButton}>
-              <div className={styles.projectName}><h1 >{projectName}</h1></div>
 
-            </div>
+  const [selectedTask, setSelectedTask] = useState({
+    title: '',
+    status: '',
+    description: '',
+    taskId: 0,
+  });
+
+
+
+
+  return (
+    <div className={styles.initialPagePrincipalDiv}>
+      <SideBar mensagem={username} />
+      <main className={styles.main}>
+        <div className={styles.title}>
+          <div>
+            <Link href='/mainPage'><img className={styles.imgGoBack} src="/icons/voltar.png" alt="voltar" /></Link>
           </div>
+          <div className={styles.tittleNameButton}>
+            <div className={styles.projectName}><h1 >{projectName}</h1></div>
+
+          </div>
+        </div>
+        <DragDropContext onDragEnd={onDragEnd}>
           <div className={styles.mainTasks}>
             <div className={styles.taskColumn}>
-              <div className={styles.columnTittle}>
-                <div>Planning</div>
-                <img onClick={() => {
-                  handleAddTaskClick('Planning')
-                    ; handleOpenModal
-                }} src="/icons/adicionar.png" alt="" />
-              </div>
-
-              <Droppable droppableId="Planning" key="Planning">
-                {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {planningTasks.map((task, index) => (
-                      <Draggable key={task.id} draggableId={`task-${task.id}`} index={index}>
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            className={styles.task}
-                          >
-
-                            <div className={`${styles.taskPrioridade} ${task.prioridade === 'low' ? styles.green : ''} ${task.prioridade === 'medium' ? styles.yellow : ''} ${task.prioridade === 'high' ? styles.red : ''}`}></div>
-                            <div className={styles.taskContent}>
-                              <div className={styles.taskTittle}>{task.title}</div>
-                              <div className={styles.taskDescrition}>{task.description}</div>
+              <div className={styles.cinza}>
+                <div className={styles.columnTittle}>
+                  <div>Planning</div>
+                  <img onClick={() => {
+                    handleAddTaskClick('Planning')
+                      ; handleOpenModal
+                  }} src="/icons/adicionar.png" alt="" />
+                </div>
+                <Droppable droppableId="Planning" key="Planning">
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps} >
+                      {planningTasks.map((task, index) => (
+                        <Draggable key={task.id} draggableId={`task-${task.id}`} index={index}>
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className={styles.task}
+                              onClick={() => {
+                                handleOpenModalEdit();
+                                setSelectedTask({ title: task.title, status: task.status, description: task.description, taskId: task.id}); // Atualize o estado da tarefa selecionada
+                              }}
+                            >
+                              <div className={`${styles.taskPrioridade} ${task.prioridade === 'low' ? styles.green : ''} ${task.prioridade === 'medium' ? styles.yellow : ''} ${task.prioridade === 'high' ? styles.red : ''}`}></div>
+                              <div className={styles.taskContent}>
+                                <div className={styles.taskTittle}>{task.title}</div>
+                                <div className={styles.taskDescrition}>{task.description}</div>
+                              </div>
                             </div>
-
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </div>
 
             </div>
             <div className={styles.taskColumn}>
-              <div className={styles.columnTittle}>
-                <div>To Do</div>
-                <img onClick={() => {
-                  handleAddTaskClick('To Do')
-                    ; handleOpenModal
-                }} src="/icons/adicionar.png" alt="" />
-              </div>
-
-              <Droppable droppableId="To Do" key="To Do">
-                {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {todoTasks.map((task, index) => (
-                      <Draggable key={task.id} draggableId={`task-${task.id}`} index={index}>
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            className={styles.task}
-                          >
-
-                            <div className={`${styles.taskPrioridade} ${task.prioridade === 'low' ? styles.green : ''} ${task.prioridade === 'medium' ? styles.yellow : ''} ${task.prioridade === 'high' ? styles.red : ''}`}></div>
-                            <div className={styles.taskContent}>
-                              <div className={styles.taskTittle}>{task.title}</div>
-                              <div className={styles.taskDescrition}>{task.description}</div>
+              <div className={styles.cinza}>
+                <div className={styles.columnTittle}>
+                  <div>To Do</div>
+                  <img onClick={() => {
+                    handleAddTaskClick('To Do')
+                      ; handleOpenModal
+                  }} src="/icons/adicionar.png" alt="" />
+                </div>
+                <Droppable droppableId="To Do" key="To Do">
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      {todoTasks.map((task, index) => (
+                        <Draggable key={task.id} draggableId={`task-${task.id}`} index={index}>
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className={styles.task}
+                              onClick={() => {
+                                handleOpenModalEdit();
+                                setSelectedTask({ title: task.title, status: task.status, description: task.description, taskId: task.id }); // Atualize o estado da tarefa selecionada
+                              }}
+                            >
+                              <div className={`${styles.taskPrioridade} ${task.prioridade === 'low' ? styles.green : ''} ${task.prioridade === 'medium' ? styles.yellow : ''} ${task.prioridade === 'high' ? styles.red : ''}`}></div>
+                              <div className={styles.taskContent}>
+                                <div className={styles.taskTittle}>{task.title}</div>
+                                <div className={styles.taskDescrition}>{task.description}</div>
+                              </div>
                             </div>
-
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </div>
 
             </div>
             <div className={styles.taskColumn}>
-              <div className={styles.columnTittle}>
-                <div>In Progress</div>
-                <img onClick={() => {
-                  handleAddTaskClick('In Progress')
-                    ; handleOpenModal
-                }} src="/icons/adicionar.png" alt="" />
-              </div>
-
-              <Droppable droppableId="In Progress" key="In Progress">
-                {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {inProgressTasks.map((task, index) => (
-                      <Draggable key={task.id} draggableId={`task-${task.id}`} index={index}>
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            className={styles.task}
-                          >
-
-                            <div className={`${styles.taskPrioridade} ${task.prioridade === 'low' ? styles.green : ''} ${task.prioridade === 'medium' ? styles.yellow : ''} ${task.prioridade === 'high' ? styles.red : ''}`}></div>
-                            <div className={styles.taskContent}>
-                              <div className={styles.taskTittle}>{task.title}</div>
-                              <div className={styles.taskDescrition}>{task.description}</div>
+              <div className={styles.cinza}>
+                <div className={styles.columnTittle}>
+                  <div>In Progress</div>
+                  <img onClick={() => {
+                    handleAddTaskClick('In Progress')
+                      ; handleOpenModal
+                  }} src="/icons/adicionar.png" alt="" />
+                </div>
+                <Droppable droppableId="In Progress" key="In Progress">
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps} >
+                      {inProgressTasks.map((task, index) => (
+                        <Draggable key={task.id} draggableId={`task-${task.id}`} index={index}>
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className={styles.task}
+                              onClick={() => {
+                                handleOpenModalEdit();
+                                setSelectedTask({ title: task.title, status: task.status, description: task.description, taskId: task.id }); // Atualize o estado da tarefa selecionada
+                              }}
+                            >
+                              <div className={`${styles.taskPrioridade} ${task.prioridade === 'low' ? styles.green : ''} ${task.prioridade === 'medium' ? styles.yellow : ''} ${task.prioridade === 'high' ? styles.red : ''}`}></div>
+                              <div className={styles.taskContent}>
+                                <div className={styles.taskTittle}>{task.title}</div>
+                                <div className={styles.taskDescrition}>{task.description}</div>
+                              </div>
                             </div>
-
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </div>
 
             </div>
             <div className={styles.taskColumn}>
-              <div className={styles.columnTittle}>
-                <div>Done</div>
-                <img onClick={() => {
-                  handleAddTaskClick('Done')
-                    ; handleOpenModal
-                }} src="/icons/adicionar.png" alt="" />
-              </div>
-
-              <Droppable droppableId="Done" key="Done">
-                {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {doneTasks.map((task, index) => (
-                      <Draggable key={task.id} draggableId={`task-${task.id}`} index={index}>
-                        {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            className={styles.task}
-                          >
-
-                            <div className={`${styles.taskPrioridade} ${task.prioridade === 'low' ? styles.green : ''} ${task.prioridade === 'medium' ? styles.yellow : ''} ${task.prioridade === 'high' ? styles.red : ''}`}></div>
-                            <div className={styles.taskContent}>
-                              <div className={styles.taskTittle}>{task.title}</div>
-                              <div className={styles.taskDescrition}>{task.description}</div>
+              <div className={styles.cinza}>
+                <div className={styles.columnTittle}>
+                  <div>Done</div>
+                  <img onClick={() => {
+                    handleAddTaskClick('Done')
+                      ; handleOpenModal
+                  }} src="/icons/adicionar.png" alt="" />
+                </div>
+                <Droppable droppableId="Done" key="Done">
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                      {doneTasks.map((task, index) => (
+                        <Draggable key={task.id} draggableId={`task-${task.id}`} index={index}>
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className={styles.task}
+                              onClick={() => {
+                                handleOpenModalEdit();
+                                setSelectedTask({ title: task.title, status: task.status, description: task.description , taskId: task.id}); // Atualize o estado da tarefa selecionada
+                              }}
+                            >
+                              <div className={`${styles.taskPrioridade} ${task.prioridade === 'low' ? styles.green : ''} ${task.prioridade === 'medium' ? styles.yellow : ''} ${task.prioridade === 'high' ? styles.red : ''}`}></div>
+                              <div className={styles.taskContent}>
+                                <div className={styles.taskTittle}>{task.title}</div>
+                                <div className={styles.taskDescrition}>{task.description}</div>
+                              </div>
                             </div>
-
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </div>
 
             </div>
           </div>
-        </main>
-        <CustomModal
-          isOpen={isModalOpen}
-          closeModal={handleCloseModal}
-          projectId={projectId}
-          status={selectedColumn}
-        />
-      </div>
-    </DragDropContext>
+        </DragDropContext>
+      </main>
+      <ModalCreateTask
+        isOpen={isModalOpen}
+        closeModal={handleCloseModal}
+        projectId={projectId}
+        status={selectedColumn}
+      />
+      <ModalEditTask
+        isOpen={isModalEditOpen}
+        closeModal={handleCloseModalEdit}
+        title={selectedTask.title}
+        status={selectedTask.status}
+        description={selectedTask.description}
+        taskId={selectedTask.taskId.toString()}
+        
+        
+      />
+    </div>
+
+  )
+}
+export default function tasksPage() {
+  return (
+    <ProtectedRoute>
+      <Tasks />
+    </ProtectedRoute>
   )
 }

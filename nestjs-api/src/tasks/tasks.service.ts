@@ -33,7 +33,6 @@ export class TasksService {
   }
 
   async updateTaskStatus(id: number, novoStatus: any) {
-    console.log(novoStatus);
     try {
       const task = await this.prisma.task.findUnique({
         where: { id: id },
@@ -59,7 +58,33 @@ export class TasksService {
     return `This action updates a #${id} task`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} task`;
+  async removeTasks(id: number) {
+    return this.prisma.task.delete({
+      where: { id: id },
+    });
+  }
+  async alterDescription(id: number, description: any) {
+    const task = await this.prisma.task.findUnique({
+      where: { id: id },
+    });
+    return await this.prisma.task.update({
+      where: { id: id },
+      data: {
+        ...task,
+        description: description.description,
+      },
+    });
+  }
+  async alterTitle(id: number, title: string) {
+    const task = await this.prisma.task.findUnique({
+      where: { id: id },
+    });
+    return await this.prisma.task.update({
+      where: { id: id },
+      data: {
+        ...task,
+        title: title,
+      },
+    });
   }
 }

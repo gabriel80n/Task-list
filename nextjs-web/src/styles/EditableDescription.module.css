@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+.textarea {
+  font-family: 'Poppins', sans-serif;
+  width: 96%;
+  border-radius: 5px;
+  padding: 5px;
+}
+.description {
+  font-family: 'Poppins', sans-serif;
+  word-wrap: break-word;
+}
